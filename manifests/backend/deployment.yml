@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+  namespace: fittrack
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+      - name: backend
+        image: ashytcloud/fittrack-backend:latest
+
+        ports:
+        - containerPort: 3000
+
+        env:
+        - name: PORT
+          value: "3000"
+
+        - name: MONGO_USER
+          value: "admin"
+
+        - name: MONGO_PASSWORD
+          value: "password123"
+
+        - name: MONGO_DB
+          value: "fittrack" 
