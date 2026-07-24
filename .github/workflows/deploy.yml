@@ -3,6 +3,7 @@ name: FitTrack CD Pipeline
 on:
   push:
     branches:
+      - main
       - develop
 
 jobs:
@@ -31,4 +32,9 @@ jobs:
 
       - name: Deploy to Amazon EKS
         run: |
-          kubectl apply -f manifests/
+          kubectl apply -f manifests/namespace/
+          kubectl apply -f manifests/config
+          kubectl apply -f manifests/storage/
+          kubectl apply -f manifests/database/
+          kubectl apply -f manifests/backend/
+          kubectl apply -f manifests/frontend/
