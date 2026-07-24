@@ -25,15 +25,49 @@ spec:
         ports:
         - containerPort: 3000
 
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 15
+          periodSeconds: 10
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
         env:
-        - name: PORT
-          value: "3000"
+          - name: PORT
+            valueFrom:
+              configMapKeyRef:
+                name: fittrack-config
+                key: PORT
 
-        - name: MONGO_USER
-          value: "admin"
+          - name: MONGO_DB
+            valueFrom:
+              configMapKeyRef:
+                name: fittrack-config
+                key: MONGO_DB
 
-        - name: MONGO_PASSWORD
-          value: "password123"
+          - name: MONGO_USER
+            valueFrom:
+              secretKeyRef:
+                name: fittrack-secret
+                key: MONGO_USER
 
-        - name: MONGO_DB
-          value: "fittrack" 
+          - name: MONGO_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: fittrack-secret
+                key: MONGO_PASSWORD

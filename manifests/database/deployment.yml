@@ -27,10 +27,28 @@ spec:
 
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
-          value: admin
+          valueFrom:
+            secretKeyRef:
+              name: fittrack-secret
+              key: MONGO_USER
 
         - name: MONGO_INITDB_ROOT_PASSWORD
-          value: password123
+          valueFrom:
+            secretKeyRef:
+              name: fittrack-secret
+              key: MONGO_PASSWORD
 
         - name: MONGO_INITDB_DATABASE
-          value: fittrack
+          valueFrom:
+            configMapKeyRef:
+              name: fittrack-config
+              key: MONGO_DB
+
+        volumeMounts:
+        - name: mongodb-storage
+          mountPath: /data/db
+
+      volumes:
+      - name: mongodb-storage
+        persistentVolumeClaim:
+          claimName: mongodb-pvc
