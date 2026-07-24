@@ -16,6 +16,8 @@ The project demonstrates how to deploy a containerized application using Kuberne
 
 ## 🏗️ Architecture
 
+![FitTrack Architecture](diagrams/architecture.png)
+
 ```
                     Internet
                         │
@@ -131,12 +133,71 @@ Amazon EKS Cluster
 
 > Screenshots will be added.
 
-- Amazon EKS Cluster
-- Running Pods
-- LoadBalancer Service
-- Persistent Volume
-- GitHub Actions Workflow
-- Application Running
+### 1️⃣ Amazon EKS Cluster
+
+**Description:**
+This screenshot shows the worker nodes of the Amazon EKS cluster. It confirms that the Kubernetes cluster has been successfully created and all worker nodes are in the **Ready** state.
+
+**Command Used:**
+```bash
+kubectl get nodes
+```
+
+![Amazon EKS Cluster](assets/screenshots/01-eks-nodes.png)
+
+**Description:**
+This screenshot displays all application pods running inside the `fittrack` namespace. It verifies that the Frontend, Backend, and MongoDB workloads are healthy and running successfully.
+
+**Command Used:**
+```bash
+kubectl get pods -n fittrack
+```
+
+![Running Pods](assets/screenshots/02-running-pods.png)
+
+---
+### 3️⃣ Kubernetes Services
+
+**Description:**
+This screenshot shows the Kubernetes Services created for the application. The Frontend is exposed using a **LoadBalancer Service**, while the Backend and MongoDB use internal **ClusterIP Services**.
+
+**Command Used:**
+```bash
+kubectl get svc -n fittrack
+```
+
+![LoadBalancer Service](assets/screenshots/03-services.png)
+
+---
+### 4️⃣ Persistent Storage (Amazon EBS)
+
+**Description:**
+This screenshot confirms that Kubernetes dynamically provisioned an Amazon EBS volume through the EBS CSI Driver. The Persistent Volume (PV) is successfully bound to the Persistent Volume Claim (PVC) used by MongoDB.
+
+**Command Used:**
+```bash
+kubectl get pv
+```
+
+![Persistent Volume](assets/screenshots/04-persistent-volume.png)
+
+---
+
+### 5️⃣ GitHub Actions CI/CD Pipeline
+
+**Description:**
+This screenshot demonstrates the successful execution of the GitHub Actions Continuous Deployment pipeline. On every push to the configured branch, GitHub Actions authenticates with AWS, updates the EKS kubeconfig, and deploys the latest Kubernetes manifests.
+
+![GitHub Actions Workflow](assets/screenshots/05-github-actions-success.png)
+
+---
+
+### 6️⃣ Running FitTrack Application
+
+**Description:**
+This screenshot shows the FitTrack application successfully running through the AWS LoadBalancer endpoint, confirming that the complete deployment on Amazon EKS is operational.
+
+![FitTrack Application](assets/screenshots/06-application.png)
 
 ---
 
