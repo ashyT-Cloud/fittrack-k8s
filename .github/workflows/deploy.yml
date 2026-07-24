@@ -24,20 +24,11 @@ jobs:
       - name: Install kubectl
         uses: azure/setup-kubectl@v4
 
-      - name: Verify aws identity
-        run: |
-          aws sts get-caller-identity
-
       - name: Update kubeconfig
         run: |
           aws eks update-kubeconfig \
             --region ${{ secrets.AWS_REGION }} \
             --name ${{ secrets.EKS_CLUSTER_NAME }}
-
-      - name: Verify kubectl
-        run: |
-          kubectl config current-context
-          kubectl get nodes
 
       - name: Deploy to Amazon EKS
         run: |
