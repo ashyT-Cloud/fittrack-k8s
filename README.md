@@ -16,7 +16,7 @@ The project demonstrates how to deploy a containerized application using Kuberne
 
 ## 🏗️ Architecture
 
-![FitTrack Architecture](diagrams/architecture.png)
+![FitTrack Architecture](assets/diagrams/architecture.png)
 
 ```
                     Internet
